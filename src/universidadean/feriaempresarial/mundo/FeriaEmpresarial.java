@@ -460,7 +460,7 @@ public class FeriaEmpresarial {
             if(puesto.darZona().equals(Puesto.ZONA_NORTE)) {
                 if (puesto.estaOcupado()) {
                     for (Empresa empresa : darEmpresas()) {
-                        if (puesto.darNombreEmpresa().equals(empresa.darNombre())) {
+                        if (puesto.darNombreEmpresa().equals(empresa.darNombre()) && empresa.darTipo().equals(Empresa.EXPOSITORA)) {
                             north_accumulated += empresa.darNumeroPersonasAsistentes();
                         }
                     }
@@ -469,7 +469,7 @@ public class FeriaEmpresarial {
             if(puesto.darZona().equals(Puesto.ZONA_SUR)) {
                 if (puesto.estaOcupado()) {
                     for (Empresa empresa : darEmpresas()) {
-                        if (puesto.darNombreEmpresa().equals(empresa.darNombre())) {
+                        if (puesto.darNombreEmpresa().equals(empresa.darNombre()) && empresa.darTipo().equals(Empresa.EXPOSITORA)) {
                             south_accumulated += empresa.darNumeroPersonasAsistentes();
                         }
                     }
@@ -478,7 +478,7 @@ public class FeriaEmpresarial {
             if(puesto.darZona().equals(Puesto.ZONA_CENTRO)) {
                 if (puesto.estaOcupado()) {
                     for (Empresa empresa : darEmpresas()) {
-                        if (puesto.darNombreEmpresa().equals(empresa.darNombre())) {
+                        if (puesto.darNombreEmpresa().equals(empresa.darNombre()) && empresa.darTipo().equals(Empresa.EXPOSITORA)) {
                             center_accumulated += empresa.darNumeroPersonasAsistentes();
                         }
                     }
@@ -487,7 +487,7 @@ public class FeriaEmpresarial {
             if(puesto.darZona().equals(Puesto.ZONA_ORIENTE)) {
                 if (puesto.estaOcupado()) {
                     for (Empresa empresa : darEmpresas()) {
-                        if (puesto.darNombreEmpresa().equals(empresa.darNombre())) {
+                        if (puesto.darNombreEmpresa().equals(empresa.darNombre()) && empresa.darTipo().equals(Empresa.EXPOSITORA)) {
                             west_accumulated += empresa.darNumeroPersonasAsistentes();
                         }
                     }
@@ -496,7 +496,7 @@ public class FeriaEmpresarial {
             if(puesto.darZona().equals(Puesto.ZONA_OCCIDENTE)) {
                 if (puesto.estaOcupado()) {
                     for (Empresa empresa : darEmpresas()) {
-                        if (puesto.darNombreEmpresa().equals(empresa.darNombre())) {
+                        if (puesto.darNombreEmpresa().equals(empresa.darNombre()) && empresa.darTipo().equals(Empresa.EXPOSITORA)) {
                             east_accumulated += empresa.darNumeroPersonasAsistentes();
                         }
                     }
@@ -547,9 +547,23 @@ public class FeriaEmpresarial {
      * @return respuesta2
      */
     public String metodo2() {
+        double current_total = 0;
+        double max_total = 0;
 
+        for(Puesto puesto : darPuestos()) {
+            if (puesto.estaOcupado()) {
+                for (Empresa empresa : darEmpresas()) {
+                    if (puesto.darNombreEmpresa().equals(empresa.darNombre()) && empresa.darTipo().equals(Empresa.EXPOSITORA)) {
+                        current_total += empresa.darNumeroPersonasAsistentes();
+                    }
+                }
+            }
+            max_total += puesto.darNumMaximoPersonas();
+        }
 
-        return "Respuesta 2";
+        double average = current_total/max_total;
+
+        return average >= 60 ? "El punto de equilibrio se ha cumplido" : "El punto de equilibrio no se ha cumplido";
     }
 
 }
